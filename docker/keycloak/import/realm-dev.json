@@ -50,27 +50,6 @@
       "realmRoles": [
         "default-roles-dev"
       ]
-    },
-    {
-      "id": "6741529d-2674-4558-bfe5-e0e36b9902fa",
-      "username": "service-account-backend-client",
-      "emailVerified": false,
-      "enabled": true,
-      "createdTimestamp": 1761927266709,
-      "totp": false,
-      "serviceAccountClientId": "backend-client",
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "default-roles-dev"
-      ],
-      "clientRoles": {
-        "realm-management": [
-          "manage-users"
-        ]
-      },
-      "notBefore": 0,
-      "groups": []
     }
   ],
 
@@ -113,63 +92,6 @@
         "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "pkce.code.challenge.method": "S256",
-        "backchannel.logout.revoke.offline.tokens": "false",
-        "dpop.bound.access.tokens": "false"
-      },
-      "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": true,
-      "nodeReRegistrationTimeout": -1,
-      "defaultClientScopes": [
-        "web-origins",
-        "acr",
-        "profile",
-        "roles",
-        "basic",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "organization",
-        "offline_access",
-        "microprofile-jwt"
-      ],
-      "access": {
-        "view": true,
-        "configure": true,
-        "manage": true
-      }
-    },
-    {
-      "clientId": "backend-client",
-      "name": "backend-client",
-      "description": "",
-      "rootUrl": "https://idp.keycloak.local",
-      "adminUrl": "https://idp.keycloak.local",
-      "baseUrl": "https://idp.keycloak.local",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "b6f2e5a6-d536-405b-b8ab-04df432ed091",
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": false,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
-      "serviceAccountsEnabled": true,
-      "publicClient": false,
-      "frontchannelLogout": true,
-      "protocol": "openid-connect",
-      "attributes": {
-        "realm_client": "false",
-        "oidc.ciba.grant.enabled": "false",
-        "client.secret.creation.time": "1761570939",
-        "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "false",
-        "post.logout.redirect.uris": "+",
-        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
         "dpop.bound.access.tokens": "false"
       },
