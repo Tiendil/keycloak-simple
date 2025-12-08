@@ -22,6 +22,9 @@ Customized Keycloak docker container for my personal projects.
 - TODO: some changes listed here are not an actual changes, but dev setup (like flows changes). Need to clarify that.
 - TODO: add notes on configuration of tailcloak
 - TODO: specify dev user creds
+- "first name" and "last name" no longer required fields (Removed)
+- resetPasswordAllowed: false — no passwords — no resets
+- registrationEmailAsUsername: true
 
 ## Simple browser flow
 

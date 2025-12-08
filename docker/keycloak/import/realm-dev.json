@@ -11,8 +11,10 @@
 
   "registrationAllowed": true,
   "loginWithEmailAllowed": true,
-  "resetPasswordAllowed": true,
   "duplicateEmailsAllowed": false,
+
+  "registrationEmailAsUsername": true,
+  "resetPasswordAllowed": false,
 
   "users": [
     {
@@ -480,5 +482,20 @@
   ],
 
   "browserFlow": "Simple browser",
-  "firstBrokerLoginFlow": "Simple first broker login"
+  "firstBrokerLoginFlow": "Simple first broker login",
+
+  "components": {
+    "org.keycloak.userprofile.UserProfileProvider": [
+      {
+        "id": "b8aa4ec2-80c7-4fff-98e1-612a9322a869",
+        "providerId": "declarative-user-profile",
+        "subComponents": {},
+        "config": {
+          "kc.user.profile.config": [
+            "{\"attributes\":[{\"name\":\"username\",\"displayName\":\"${username}\",\"validations\":{\"length\":{\"min\":3,\"max\":255},\"username-prohibited-characters\":{},\"up-username-not-idn-homograph\":{}},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"email\",\"displayName\":\"${email}\",\"validations\":{\"email\":{},\"length\":{\"max\":255}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false}]}"
+          ]
+        }
+      }
+    ]
+  }
 }
