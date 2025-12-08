@@ -37,7 +37,7 @@ services:
       retries: 10
 
   keycloak:
-    image: keycloak-customized-dev
+    image: keycloak-simple-dev
 
     build:
       context: ./
