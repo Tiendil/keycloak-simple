@@ -3,7 +3,7 @@
 ##########
 
 (auth_proxy) {
-  reverse_proxy auth-proxy:8000 {
+  reverse_proxy oauth2-proxy:8000 {
     header_up X-Real-IP {remote_host}
     header_up X-Forwarded-Uri {uri}
     header_up Host {host}
@@ -11,7 +11,7 @@
 }
 
 (idp_proxy) {
-  reverse_proxy idp:8080 {
+  reverse_proxy keycloak:8080 {
     header_up Host {host}
   }
 }
@@ -94,7 +94,7 @@ keycloak.local {
   }
 }
 
-idp.feeds.fun.local {
+idp.keycloak.local {
   tls internal
 
   # Simple and effective way to disable Keycloak account console

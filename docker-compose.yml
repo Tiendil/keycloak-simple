@@ -5,9 +5,6 @@ volumes:
 networks:
   keycloak_network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.22.0.0/16
 
 services:
 
@@ -22,13 +19,13 @@ services:
       # - postgresql_data:/var/lib/postgresql/data
       - ./docker/postgres/healthcheck.sh:/healthcheck.sh
 
+    ports:
+      - "5432:5432"
+
     environment:
       POSTGRES_DB: keycloak
-      # set to root because of the bug in pg_isready (?) it
-      # it looks like it expect the DB name be the same as the POSTGRES_USER
-      POSTGRES_DB: root
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
 
     networks:
       keycloak_network: {}
@@ -47,7 +44,7 @@ services:
       dockerfile: ./docker/keycloak/Dockerfile
 
     depends_on:
-      postgresql:
+      postgres:
         condition: service_healthy
 
     volumes:
@@ -60,7 +57,7 @@ services:
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
 
       # KC_DB: postgres
-      KC_DB_URL_HOST: postgresql
+      KC_DB_URL_HOST: postgres
       KC_DB_URL_PORT: "5432"
       KC_DB_URL_DATABASE: keycloak
       KC_DB_USERNAME: keycloak
@@ -93,9 +90,7 @@ services:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.13.0-alpine
 
     depends_on:
-      backend-multi-user:
-        condition: service_started
-      idp:
+      keycloak:
         condition: service_healthy
 
     networks:
