@@ -1,0 +1,124 @@
+volumes:
+  postgresql_data: {}
+  caddy_data: {}
+
+networks:
+  keycloak_network:
+    driver: bridge
+
+services:
+
+  postgres:
+    image: postgres:15.2
+
+    volumes:
+      - type: tmpfs
+        target: /var/lib/postgresql/data
+        tmpfs:
+          size: 2g
+      # - postgresql_data:/var/lib/postgresql/data
+      - ./docker/postgres/healthcheck.sh:/healthcheck.sh
+
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+
+    networks:
+      keycloak_network: {}
+
+    healthcheck:
+      test: "/healthcheck.sh"
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  keycloak:
+    image: keycloak-customized-dev
+
+    build:
+      context: ./
+      dockerfile: ./docker/keycloak/Dockerfile
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    volumes:
+      - ./docker/keycloak/import:/opt/keycloak/data/import:ro
+      # TODO: remove
+      # - ./docker/dev/keycloak/tailcloakify-theme.jar:/opt/keycloak/providers/tailcloakify-theme.jar
+
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+
+      # KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_PORT: "5432"
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+
+      # TODO: move to the Dockerfile?
+
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+
+      KC_HEALTH_ENABLED: "true"
+      KC_MANAGEMENT_ENABLED: "true"
+
+    command: start-dev --import-realm
+
+    networks:
+      keycloak_network: {}
+
+    healthcheck:
+      test: >
+        bash -c "exec 3<>/dev/tcp/127.0.0.1/9000 &&
+        printf 'HEAD /health/ready HTTP/1.1\r\nHost: localhost:9000\r\nConnection: close\r\n\r\n' >&3 &&
+        grep -q 'HTTP/1.1 200 OK' <&3"
+      interval: 1s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.13.0-alpine
+
+    depends_on:
+      keycloak:
+        condition: service_healthy
+
+    networks:
+      keycloak_network:
+        aliases:
+          - auth-proxy
+
+    volumes:
+      - ./docker/oauth2-proxy/config.cfg:/etc/oauth2-proxy/config.cfg:ro
+      - ./docker/oauth2-proxy/config-alpha.yaml:/etc/oauth2-proxy/config-alpha.yaml:ro
+      - caddy_data:/caddy-data:ro
+
+    command: --config /etc/oauth2-proxy/config.cfg --alpha-config /etc/oauth2-proxy/config-alpha.yaml
+
+  # We use Caddy in dev environment to properly simulate production setup
+  edge-proxy:
+    image: caddy:2.10-alpine
+
+    volumes:
+      - ./docker/caddy:/etc/caddy:ro
+      - caddy_data:/data
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    networks:
+      keycloak_network:
+        aliases:
+          - keycloak.local
+          - idp.keycloak.local

@@ -12,3 +12,6 @@ Customized Keycloak docker container for my personal projects.
 - TODO: Pre-installed themes for mails
 - TODO: Pre-installed texts for mails
 - TODO: an example of redefining texts
+- TODO: add an example of requests to protected/public endpoints
+- TODO: add an instruction to configure local domain names
+- TODO: index page with links to test urls
