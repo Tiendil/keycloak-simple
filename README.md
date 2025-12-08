@@ -20,6 +20,7 @@ Customized Keycloak docker container for my personal projects.
 - "Browser" flow is replaced with "Simple browser" flow.
 - "First broker login" flow is replaced with "Simple first broker login.
 - TODO: some changes listed here are not an actual changes, but dev setup (like flows changes). Need to clarify that.
+- TODO: add notes on configuration of tailcloak
 
 ## Simple browser flow
 
