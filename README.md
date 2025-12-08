@@ -16,6 +16,7 @@ Customized Keycloak docker container for my personal projects.
 - TODO: add an instruction to configure local domain names
 - TODO: index page with links to test urls
 - TODO: instruction on configuring social login
+- TODO: join configuration
 - "Browser" flow is replaced with "Simple browser" flow.
 
 ## Simple browser flow
