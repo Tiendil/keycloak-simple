@@ -15,3 +15,4 @@ Customized Keycloak docker container for my personal projects.
 - TODO: add an example of requests to protected/public endpoints
 - TODO: add an instruction to configure local domain names
 - TODO: index page with links to test urls
+- TODO: instruction on configuring social login
