@@ -71,7 +71,9 @@ services:
       KC_HEALTH_ENABLED: "true"
       KC_MANAGEMENT_ENABLED: "true"
 
-    command: start-dev --import-realm
+      # TAILCLOAKIFY_SHOW_SOCIAL_PROVIDERS_ON_REGISTER: "TRUE"
+
+    command: start-dev --import-realm --verbose
 
     networks:
       keycloak_network: {}

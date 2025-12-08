@@ -326,6 +326,33 @@
     }
   ],
 
+  "identityProviders": [
+    {
+      "alias": "google",
+      "displayName": "",
+      "internalId": "7d119dfd-7d3a-41e0-b846-4e00a4e52d07",
+      "providerId": "google",
+      "enabled": true,
+      "updateProfileFirstLoginMode": "on",
+      "trustEmail": true,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "authenticateByDefault": false,
+      "linkOnly": false,
+      "hideOnLogin": false,
+      "config": {
+        "clientId": "TODO: set your id",
+        "acceptsPromptNoneForwardFromClient": "false",
+        "disableUserInfo": "false",
+        "showInAccountConsole": "ALWAYS",
+        "syncMode": "IMPORT",
+        "filteredByClaim": "false",
+        "clientSecret": "TODO: set your secret",
+        "caseSensitiveOriginalUsername": "false"
+      }
+    }
+  ],
+
   "authenticationFlows": [
     {
       "id": "f7728ec1-8e90-4ad1-9cf2-e10bfefd3b3a",
@@ -432,6 +459,23 @@
           "userSetupAllowed": false
         }
       ]
+    }
+  ],
+
+  "authenticatorConfig": [
+    {
+      "id": "394b618c-fe7c-49f8-96b9-ba04be628720",
+      "alias": "Simple first broker login create unique user config",
+      "config": {
+        "require.password.update.after.registration": "false"
+      }
+    },
+    {
+      "id": "ec1bab43-da55-4a14-968b-413dc14c2da5",
+      "alias": "Simple first broker login review profile config",
+      "config": {
+        "update.profile.on.first.login": "missing"
+      }
     }
   ],
 
