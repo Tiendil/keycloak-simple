@@ -1,0 +1,106 @@
+##########
+# snippets
+##########
+
+(auth_proxy) {
+  reverse_proxy auth-proxy:8000 {
+    header_up X-Real-IP {remote_host}
+    header_up X-Forwarded-Uri {uri}
+    header_up Host {host}
+  }
+}
+
+(idp_proxy) {
+  reverse_proxy idp:8080 {
+    header_up Host {host}
+  }
+}
+
+(auth_proxy_common) {
+  uri /oauth2/auth
+  header_up X-Real-IP {remote_host}
+  copy_headers {
+    X-FFun-User-Id
+    X-FFun-Identity-Provider-Id
+    Set-Cookie
+  }
+}
+
+#######
+# sites
+#######
+
+keycloak.local {
+  tls internal
+
+  # Remove all X-* headers to prevent header injection attacks
+  request_header -X-*
+
+  # TODO: reduce to only needed paths
+
+  handle /oauth2/* {
+    import auth_proxy
+  }
+
+  handle /auth/logout {
+    rewrite * /oauth2/sign_out?rd=/%3Flogged-out
+    import auth_proxy
+  }
+
+  handle /auth/login {
+    rewrite * /oauth2/start?rd={query.return_to}
+    import auth_proxy
+  }
+
+  handle /auth/join {
+    rewrite * /oauth2/start?prompt=create&rd={query.return_to}
+    import auth_proxy
+  }
+
+  handle /auth/* {
+    route {
+      forward_auth auth-proxy:8000 {
+        import auth_proxy_common
+
+        @unauth status 401
+        handle_response @unauth {
+          redir * /oauth2/sign_in?rd={scheme}://{host}{uri}
+        }
+      }
+
+      @authCookie header Set-Cookie *
+      header @authCookie +Set-Cookie {header.Set-Cookie}
+
+      # TODO: maybe return simplified backend response?
+      respond "Auth API response"
+    }
+  }
+
+  handle /private/* {
+    route {
+      forward_auth auth-proxy:8000 {
+        import auth_proxy_common
+      }
+
+      @authCookie header Set-Cookie *
+      header @authCookie +Set-Cookie {header.Set-Cookie}
+
+      respond "Private API response"
+    }
+  }
+
+  handle /public/* {
+    respond "Public API response"
+  }
+}
+
+idp.feeds.fun.local {
+  tls internal
+
+  # Simple and effective way to disable Keycloak account console
+  handle_path /realms/dev/account* {
+    respond "Not found" 404
+  }
+
+  import idp_proxy
+}
