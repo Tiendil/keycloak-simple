@@ -25,6 +25,7 @@ Customized Keycloak docker container for my personal projects.
 - "first name" and "last name" no longer required fields (Removed)
 - resetPasswordAllowed: false — no passwords — no resets
 - registrationEmailAsUsername: true
+- TODO: hide registration form & link to it from the login page
 
 ## Simple browser flow
 

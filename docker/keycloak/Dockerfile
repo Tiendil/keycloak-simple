@@ -1,3 +1,7 @@
+############
+# Build step
+############
+
 FROM quay.io/keycloak/keycloak:26.4.2 AS builder
 
 ENV KC_HEALTH_ENABLED=true
@@ -20,7 +24,16 @@ ADD --chown=keycloak:keycloak \
     ./docker/keycloak/tailcloakify/tailcloakify-theme-1.2.0.jar \
     ./providers/
 
+COPY --chown=keycloak:keycloak \
+     ./themes/feeds-fun/ \
+     ./themes/feeds-fun/
+
 RUN ./bin/kc.sh build
 
+##################
+# Actual container
+##################
+
 FROM quay.io/keycloak/keycloak:26.4.2
+
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
