@@ -26,6 +26,7 @@ Customized Keycloak docker container for my personal projects.
 - resetPasswordAllowed: false — no passwords — no resets
 - registrationEmailAsUsername: true
 - TODO: hide registration form & link to it from the login page
+- TODO: apple social login
 
 ## Simple browser flow
 
