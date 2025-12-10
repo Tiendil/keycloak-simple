@@ -3,7 +3,7 @@
   "realm": "dev",
   "enabled": true,
 
-  "loginTheme": "feeds-fun",
+  "loginTheme": "FeedsFun",
 
   "attributes": {
     "frontendUrl": "https://idp.keycloak.local"

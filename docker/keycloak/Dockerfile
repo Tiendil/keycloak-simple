@@ -24,9 +24,10 @@ ADD --chown=keycloak:keycloak \
     ./docker/keycloak/tailcloakify/tailcloakify-theme-1.2.0.jar \
     ./providers/
 
-COPY --chown=keycloak:keycloak \
-     ./themes/feeds-fun/ \
-     ./themes/feeds-fun/
+ADD --chown=keycloak:keycloak \
+    --chmod=644 \
+    ./docker/keycloak/feeds-fun/feeds-fun-theme.jar \
+    ./providers/
 
 RUN ./bin/kc.sh build
 
