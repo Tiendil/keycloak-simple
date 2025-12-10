@@ -4,17 +4,36 @@
   "enabled": true,
 
   "loginTheme": "FeedsFun",
+  "emailTheme": "FeedsFun",
 
   "attributes": {
     "frontendUrl": "https://idp.keycloak.local"
   },
 
-  "registrationAllowed": true,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
 
+  "registrationAllowed": false,
   "registrationEmailAsUsername": true,
   "resetPasswordAllowed": false,
+
+  "smtpServer": {
+    "allowutf8": "true",
+    "replyToDisplayName": "",
+    "debug": "false",
+    "starttls": "false",
+    "auth": "true",
+    "envelopeFrom": "",
+    "ssl": "true",
+    "password": "**********",
+    "port": "465",
+    "replyTo": "",
+    "host": "in-v3.mailjet.com",
+    "from": "no-reply@feeds.fun",
+    "fromDisplayName": "Feeds Fun",
+    "authType": "basic",
+    "user": "217d9fdbf9a5ce46ed6e3bffbdf1418b"
+  },
 
   "users": [
     {
