@@ -27,6 +27,7 @@ Customized Keycloak docker container for my personal projects.
 - registrationEmailAsUsername: true
 - TODO: hide registration form & link to it from the login page
 - TODO: apple social login
+- TODO: start keycloak in optimized mode
 
 ## Simple browser flow
 
@@ -37,3 +38,7 @@ The flow provides two ways to authenticate:
 
 TODO: what with creation user on first login
 TODO: what with merging users
+
+# Instruction
+
+1. Before sending emails, set SMPT user_id/password in the Keycloak admin console.

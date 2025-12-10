@@ -74,7 +74,7 @@ services:
       # TODO: maybe we can remove this if we'll use the same forms for join/register?
       TAILCLOAKIFY_SHOW_SOCIAL_PROVIDERS_ON_REGISTER: "TRUE"
 
-    command: start-dev --import-realm
+    command: start --import-realm --verbose --optimized --hostname-strict false --proxy-headers xforwarded --http-enabled=true
 
     networks:
       keycloak_network: {}

@@ -79,15 +79,14 @@
       "description": "",
       "rootUrl": "https://idp.keycloak.local",
       "adminUrl": "https://idp.keycloak.local",
-      "baseUrl": "https://idp.keycloak.local",
+      "baseUrl": "https://keycloak.local",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "a5tAGfAvr1A2nACmPRSlxMTJyJ6yoEuq",
       "redirectUris": [
-        "https://keycloak.local/*",
-        "https://auth.keycloak.local/*"
+        "https://keycloak.local/*"
       ],
       "webOrigins": [
         "https://idp.keycloak.local"
@@ -300,7 +299,7 @@
     {
       "id": "f7728ec1-8e90-4ad1-9cf2-e10bfefd3b3a",
       "alias": "Simple browser",
-      "description": "Browser based authentication",
+      "description": "Simple Browser based authentication",
       "providerId": "basic-flow",
       "topLevel": true,
       "builtIn": false,
@@ -340,6 +339,7 @@
       "builtIn": false,
       "authenticationExecutions": [
         {
+          "authenticatorConfig": "Magic link continuation login",
           "authenticator": "magic-link-continuation-form",
           "authenticatorFlow": false,
           "requirement": "REQUIRED",
@@ -406,6 +406,14 @@
   ],
 
   "authenticatorConfig": [
+    {
+      "id": "c859d723-c188-407d-a489-ee4aaad36888",
+      "alias": "Magic link continuation login",
+      "config": {
+        "ext-magic-create-nonexistent-user": "true",
+        "TIMEOUT": "10"
+      }
+    },
     {
       "id": "394b618c-fe7c-49f8-96b9-ba04be628720",
       "alias": "Simple first broker login create unique user config",
