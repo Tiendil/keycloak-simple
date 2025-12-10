@@ -103,6 +103,7 @@ keycloak.local {
             <body>
             <h1>Urls to test Keycloak</h1>
             <ul>
+                <li><a href='https://idp.keycloak.local/'>Admin</a></li>
                 <li><a href='/auth/login?return_to=/'>Login</a></li>
                 <li><a href='/auth/join?return_to=/'>Join</a></li>
                 <li><a href='/auth/logout'>Logout</a></li>
