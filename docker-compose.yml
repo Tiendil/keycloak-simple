@@ -109,7 +109,7 @@ services:
     command: --config /etc/oauth2-proxy/config.cfg --alpha-config /etc/oauth2-proxy/config-alpha.yaml
 
   # We use Caddy in dev environment to properly simulate production setup
-  edge-proxy:
+  caddy:
     image: caddy:2.10-alpine
 
     volumes:

@@ -92,6 +92,27 @@ keycloak.local {
   handle /public/* {
     respond "Public API response"
   }
+
+  handle / {
+    # Simple HTML page with links to login, logout, private, and public
+
+    header Content-Type text/html
+
+    respond "
+        <html>
+            <body>
+            <h1>Urls to test Keycloak</h1>
+            <ul>
+                <li><a href='/auth/login?return_to=/'>Login</a></li>
+                <li><a href='/auth/join?return_to=/'>Join</a></li>
+                <li><a href='/auth/logout'>Logout</a></li>
+                <li><a href='/private/data'>Private Data</a></li>
+                <li><a href='/public/data'>Public Data</a></li>
+            </ul>
+            </body>
+        </html>
+    "
+  }
 }
 
 idp.keycloak.local {
