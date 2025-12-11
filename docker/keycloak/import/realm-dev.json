@@ -339,11 +339,11 @@
       "builtIn": false,
       "authenticationExecutions": [
         {
-          "authenticatorConfig": "Magic link continuation login",
-          "authenticator": "magic-link-continuation-form",
+          "authenticatorConfig": "Magic Link config",
+          "authenticator": "ext-magic-form",
           "authenticatorFlow": false,
           "requirement": "REQUIRED",
-          "priority": 0,
+          "priority": 23,
           "autheticatorFlow": false,
           "userSetupAllowed": false
         }
@@ -407,11 +407,13 @@
 
   "authenticatorConfig": [
     {
-      "id": "c859d723-c188-407d-a489-ee4aaad36888",
-      "alias": "Magic link continuation login",
+      "id": "45e2a4c2-704b-4a8d-804a-280627f9ab7a",
+      "alias": "Magic Link config",
       "config": {
-        "ext-magic-create-nonexistent-user": "true",
-        "TIMEOUT": "10"
+        "ext-magic-update-profile-action": "false",
+        "ext-magic-update-password-action": "false",
+        "ext-magic-allow-token-reuse": "true",
+        "ext-magic-create-nonexistent-user": "true"
       }
     },
     {
