@@ -49,8 +49,6 @@ services:
 
     volumes:
       - ./docker/keycloak/import:/opt/keycloak/data/import:ro
-      # TODO: remove
-      # - ./docker/dev/keycloak/tailcloakify-theme.jar:/opt/keycloak/providers/tailcloakify-theme.jar
 
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
@@ -70,9 +68,6 @@ services:
 
       KC_HEALTH_ENABLED: "true"
       KC_MANAGEMENT_ENABLED: "true"
-
-      # TODO: maybe we can remove this if we'll use the same forms for join/register?
-      TAILCLOAKIFY_SHOW_SOCIAL_PROVIDERS_ON_REGISTER: "TRUE"
 
     command: start --import-realm --verbose --optimized --hostname-strict false --proxy-headers xforwarded --http-enabled=true
 
