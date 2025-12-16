@@ -30,12 +30,8 @@ jobs:
     strategy:
       matrix:
         include:
-
-          - image: tiendil/feeds-fun-backend
-            dockerfile: ./docker/prod/backend/Dockerfile
-
-          - image: tiendil/feeds-fun-frontend-data
-            dockerfile: ./docker/prod/frontend/Dockerfile
+          - image: tiendil/keycloak-simple
+            dockerfile: ./docker/keycloak/Dockerfile
 
     steps:
       - name: Check out the repo

@@ -20,19 +20,13 @@ jobs:
     strategy:
       matrix:
         include:
-
-          - repository: tiendil/feeds-fun-backend
-            readme: ./docker/prod/backend/dockerhub-readme.md
-            short: Feeds Fun — news reader with tags, scoring, and AI — backend image.
-
-          - repository: tiendil/feeds-fun-frontend-data
-            readme: ./docker/prod/frontend/dockerhub-readme.md
-            short: Feeds Fun — news reader with tags, scoring, and AI — frontend data image.
-
+          - repository: tiendil/keycloak-simple
+            readme: ./README.md
+            short: Keycloak Simple — customized Keycloak docker container for Tiendil's personal projects.
     steps:
       - uses: actions/checkout@v4
       - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v4.0.2
+        uses: peter-evans/dockerhub-description@v5
         with:
           username: tiendil
           password: ${{ secrets.DOCKERHUB_TOKEN }}

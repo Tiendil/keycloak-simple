@@ -1,7 +1,7 @@
 
 # Customized Keycloak
 
-Customized Keycloak docker container for my personal projects.
+Customized Keycloak docker container for Tiendil's personal projects.
 
 ## Features / Changes
 
@@ -70,6 +70,10 @@ What is already configured in the `dev` realm:
 - Emails is equal to the username.
 - Registration is disabled. Login form works like registration form.
 - Reset password is disabled — there are no passwords.
+
+## Releasing
+
+Make a tag `release-x.y.z` and push it to GitHub. GitHub Actions will build and push the Docker image to Docker Hub.
 
 ## TODO
 
