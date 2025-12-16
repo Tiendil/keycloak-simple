@@ -6,13 +6,34 @@ Customized Keycloak docker container for my personal projects.
 ## Features / Changes
 
 - Pre-installed [Magic Link extension](https://github.com/p2-inc/keycloak-magic-link)
-- TODO: Pre-installed themes for:
-  - magic-link flows
-  - social login flows
-- TODO: Pre-installed themes for mails
-- TODO: Pre-installed texts for mails
-- TODO: an example of redefining texts
-- TODO: add an example of requests to protected/public endpoints
+- Pre-installed [Tailclokify theme](https://github.com/ALMiG-Kompressoren-GmbH/tailcloakify)
+- Pre-installed [Fedds Fun theme](https://github.com/Tiendil/feeds-fun-tailcloakify/tree/feeds-fun-changes)
+- Intended for magic link login + social login only (no password login). Both flows create users on first login. Both flows merge users if the same email is used.
+
+## Usage
+
+Add `keycloak.local` and `idp.keycloak.local` to your `/etc/hosts` file:
+
+```
+127.0.0.1 keycloak.local
+127.0.0.1 idp.keycloak.local
+```
+
+Build keycloak image:
+
+```bash
+docker compose build keycloak
+```
+
+Run services:
+
+```bash
+docker compose up
+```
+
+Open https://keycloak.local in your browser. You'll see the page with links to test Keycloak login flows.
+
+
 - TODO: add an instruction to configure local domain names
 - TODO: index page with links to test urls
 - TODO: instruction on configuring social login
