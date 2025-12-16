@@ -5,10 +5,26 @@ Customized Keycloak docker container for my personal projects.
 
 ## Features / Changes
 
+### Extentions
+
 - Pre-installed [Magic Link extension](https://github.com/p2-inc/keycloak-magic-link)
 - Pre-installed [Tailclokify theme](https://github.com/ALMiG-Kompressoren-GmbH/tailcloakify)
 - Pre-installed [Fedds Fun theme](https://github.com/Tiendil/feeds-fun-tailcloakify/tree/feeds-fun-changes)
-- Intended for magic link login + social login only (no password login). Both flows create users on first login. Both flows merge users if the same email is used.
+
+### Flows
+
+- This setup is intended for magic link login + social login only (no password login).
+- Both flows create users on first login.
+- Both flows merge users if the same email is used.
+
+### Infrastructure
+
+Check [docker-compose.yml](./docker-compose.yml) and [./docker](./docker) folder for details.
+
+- Keycloak as the Identity Provider (IdP).
+- Caddy as reverse proxy for all services with automatic HTTPS using Let's Encrypt.
+- OAuth2-proxy in front of Keycloak to handle OAuth2/OIDC flows.
+- PostgreSQL as the database for Keycloak.
 
 ## Usage
 
@@ -33,33 +49,28 @@ docker compose up
 
 Open https://keycloak.local in your browser. You'll see the page with links to test Keycloak login flows.
 
+**Note:** Keycloak may need an additional configuration step.
 
-- TODO: add an instruction to configure local domain names
-- TODO: index page with links to test urls
-- TODO: instruction on configuring social login
-- TODO: join configuration
-- "Browser" flow is replaced with "Simple browser" flow.
-- "First broker login" flow is replaced with "Simple first broker login.
-- TODO: some changes listed here are not an actual changes, but dev setup (like flows changes). Need to clarify that.
-- TODO: add notes on configuration of tailcloak
-- TODO: specify dev user creds
-- "first name" and "last name" no longer required fields (Removed)
-- resetPasswordAllowed: false — no passwords — no resets
-- registrationEmailAsUsername: true
-- TODO: hide registration form & link to it from the login page
-- TODO: apple social login
-- TODO: start keycloak in optimized mode
+## Keycloak Configuration
 
-## Simple browser flow
+By default, this Keycloak comes with two realms:
 
-The flow provides two ways to authenticate:
+- `master` — the default Keycloak admin realm, admin user/pass: `admin`/`admin`.
+- `dev` — the development realm that we are going to use.
 
-1. Via magic link sent to the user's email.
-2. Via social login (if configured).
+What you may want to configure/change in the `dev` realm:
 
-TODO: what with creation user on first login
-TODO: what with merging users
+- SMTP settings for sending emails.
+- Social login providers (e.g., Google, GitHub, etc.) if needed.
 
-# Instruction
+What is already configured in the `dev` realm:
 
-1. Before sending emails, set SMPT user_id/password in the Keycloak admin console.
+- Removed  "first name" and "last name" profile fields.
+- Login with email allowed.
+- Emails is equal to the username.
+- Registration is disabled. Login form works like registration form.
+- Reset password is disabled — there are no passwords.
+
+## TODO
+
+- Add extension for the apple social login.
