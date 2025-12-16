@@ -1,0 +1,42 @@
+name: update docker images descriptions
+on:
+  workflow_dispatch: {}
+
+  push:
+    tags:
+      - 'release-*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-update-docker-images-descriptions
+  cancel-in-progress: false
+
+jobs:
+
+  update-metadata:
+    name: Update Docker Hub metadata
+    runs-on: ubuntu-latest
+    environment: release
+
+    strategy:
+      matrix:
+        include:
+
+          - repository: tiendil/feeds-fun-backend
+            readme: ./docker/prod/backend/dockerhub-readme.md
+            short: Feeds Fun — news reader with tags, scoring, and AI — backend image.
+
+          - repository: tiendil/feeds-fun-frontend-data
+            readme: ./docker/prod/frontend/dockerhub-readme.md
+            short: Feeds Fun — news reader with tags, scoring, and AI — frontend data image.
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v4.0.2
+        with:
+          username: tiendil
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ matrix.repository }}
+          short-description: ${{ matrix.short }}
+          readme-filepath: ${{ matrix.readme }}
+          enable-url-completion: true

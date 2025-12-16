@@ -1,0 +1,76 @@
+name: build docker images
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Docker image tag'
+        required: true
+
+  push:
+    tags:
+      - 'release-*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-build-docker-images
+  cancel-in-progress: false
+
+jobs:
+
+  push_to_registry:
+    name: Build and push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+
+    strategy:
+      matrix:
+        include:
+
+          - image: tiendil/feeds-fun-backend
+            dockerfile: ./docker/prod/backend/Dockerfile
+
+          - image: tiendil/feeds-fun-frontend-data
+            dockerfile: ./docker/prod/frontend/Dockerfile
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3.4.0
+        with:
+          username: tiendil
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5.7.0
+        with:
+          images: ${{ matrix.image }}
+          tags: |
+            type=match,pattern=release-(.*),group=1
+            type=match,pattern=release-.*,value=latest
+            type=raw,value=${{ github.event.inputs.tag }}
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: index.docker.io/${{ matrix.image }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          # do not pollute the registry with attestation tags (sha256_<digest>)
+          push-to-registry: false
