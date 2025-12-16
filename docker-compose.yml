@@ -71,7 +71,10 @@ services:
       KC_HEALTH_ENABLED: "true"
       KC_MANAGEMENT_ENABLED: "true"
 
-    command: start-dev --import-realm
+      # TODO: maybe we can remove this if we'll use the same forms for join/register?
+      TAILCLOAKIFY_SHOW_SOCIAL_PROVIDERS_ON_REGISTER: "TRUE"
+
+    command: start --import-realm --verbose --optimized --hostname-strict false --proxy-headers xforwarded --http-enabled=true
 
     networks:
       keycloak_network: {}
@@ -101,12 +104,13 @@ services:
     volumes:
       - ./docker/oauth2-proxy/config.cfg:/etc/oauth2-proxy/config.cfg:ro
       - ./docker/oauth2-proxy/config-alpha.yaml:/etc/oauth2-proxy/config-alpha.yaml:ro
+      - ./docker/oauth2-proxy/templates:/etc/oauth2-proxy/templates:ro
       - caddy_data:/caddy-data:ro
 
     command: --config /etc/oauth2-proxy/config.cfg --alpha-config /etc/oauth2-proxy/config-alpha.yaml
 
   # We use Caddy in dev environment to properly simulate production setup
-  edge-proxy:
+  caddy:
     image: caddy:2.10-alpine
 
     volumes:
